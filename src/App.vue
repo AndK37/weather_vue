@@ -1,19 +1,21 @@
 <template>
+  <button @click="changeUnits">{{ currentUnits }}</button>
   <select id="sel" name="" v-model="selectedCity" @change="getWeather">
     <option id="op" v-for="(v, k) in cities" :value="k" :key="k">{{ v["City"] }}</option>
   </select>
-  <h1>Город {{ cities[selectedCity]?.City }} Широта {{ cities[selectedCity]?.Lat }} Долгота {{ cities[selectedCity]?.Lon
-    }}</h1>
-  <div v-if="!weather">Загрузка...</div>
+  <div v-if="!weatherNow">Загрузка...</div>
   <div v-else>
     <weather-card class="main-card" 
-      :cloudness="weather['clouds']['all']" 
-      :temperature="weather['main']['temp']"
-      :wind="weather['wind']['speed']" 
-      :humidity="weather['main']['humidity']" 
-      :pressure="weather['main']['pressure']">
+      :cloudness="weatherNow['clouds']['all']" 
+      :temperature="tmp"
+      :wind="weatherNow['wind']['speed']" 
+      :humidity="weatherNow['main']['humidity']" 
+      :pressure="weatherNow['main']['pressure']" 
+      :desc="weatherNow['weather'][0]['description']" 
+      :icon="weatherNow['weather'][0]['icon']" 
+      :units="currentUnits">
     </weather-card>
-    <card-list :lat="cities[selectedCity]?.Lat" :lon="cities[selectedCity]?.Lon">
+    <card-list :weather="weatherForecast" :units="currentUnits">
     </card-list>
   </div>
 
@@ -29,19 +31,46 @@ export default {
   },
   data() {
     return {
-      weather: null,
+      weatherNow: null,
+      weatherForecast: null,
       cities: [],
-      selectedCity: 0
+      selectedCity: 0,
+      currentUnits: 'C'
     }
   },
   methods: {
     getWeather() {
-      console.log("ap");
       fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${this.cities[this.selectedCity]?.Lat}&lon=${this.cities[this.selectedCity]?.Lon}&appid=de97e3b38fb8be62d9aa634927b0b35c&units=metric`)
         .then(resp => resp.json())
         .then(json => {
-          this.weather = json;
+          this.weatherNow = json;
+          this.tmp = this.weatherNow['main']['temp'].toFixed(0)
         })
+      fetch(`https://api.openweathermap.org/data/2.5/forecast?lat=${this.cities[this.selectedCity]?.Lat}&lon=${this.cities[this.selectedCity]?.Lon}&appid=de97e3b38fb8be62d9aa634927b0b35c&units=metric`)
+        .then(resp => resp.json())
+        .then(json => {
+          this.weatherForecast = json;
+          for (let i = 0; i < 40; i++) {
+            this.weatherForecast['list'][i]['main']['temp'] = (this.weatherForecast['list'][i]['main']['temp']).toFixed(0)
+          }
+      })
+      
+    },
+    changeUnits() {
+      if (this.currentUnits == 'C') {
+        this.currentUnits = 'F'
+        this.tmp = ((this.tmp * 9/5) + 32).toFixed(0)
+        for (let i = 0; i < 40; i++) {
+          this.weatherForecast['list'][i]['main']['temp'] = ((this.weatherForecast['list'][i]['main']['temp'] * 9/5) + 32).toFixed(0)
+        }
+      }
+      else if (this.currentUnits == 'F') {
+        this.currentUnits = 'C'
+        this.tmp = ((this.tmp - 32) * 5/9).toFixed(0)
+        for (let i = 0; i < 40; i++) {
+          this.weatherForecast['list'][i]['main']['temp'] = ((this.weatherForecast['list'][i]['main']['temp'] - 32) * 5/9).toFixed(0)
+        }
+      }
     }
   },
   mounted() {

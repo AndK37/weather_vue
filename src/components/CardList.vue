@@ -9,7 +9,10 @@
             :temperature="weather['list'][n - 1 + listPage * 5]['main']['temp']"
             :wind="weather['list'][n - 1 + listPage * 5]['wind']['speed']" 
             :humidity="weather['list'][n - 1 + listPage * 5]['main']['humidity']" 
-            :pressure="weather['list'][n - 1 + listPage * 5]['main']['pressure']">
+            :pressure="weather['list'][n - 1 + listPage * 5]['main']['pressure']" 
+            :desc="weather['list'][n - 1 + listPage * 5]['weather'][0]['description']" 
+            :icon="weather['list'][n - 1 + listPage * 5]['weather'][0]['icon']" 
+            :units="units">
           </weather-card>
         </div>
         <img @click="nextPage" v-show="listPage != 7" src="../assets/chevron_right_64dp_E8EAED_FILL0_wght400_GRAD0_opsz48.svg" alt="" style="cursor: pointer;">
@@ -27,24 +30,15 @@ export default {
     "weather-card": WeatherCard,
   },
   props: {
-    lat: Number,
-    lon: Number
+    weather: JSON,
+    units: String,
   },
   data() {
     return {
-      weather: null,
       listPage:0
     }
   },
   methods: {
-    getWeather() {
-        console.log("cl");
-      fetch(`https://api.openweathermap.org/data/2.5/forecast?lat=${this.lat}&lon=${this.lon}&appid=de97e3b38fb8be62d9aa634927b0b35c&units=metric`)
-        .then(resp => resp.json())
-        .then(json => {
-          this.weather = json;
-        })
-    },
     prevPage() {
       if (this.listPage == 0) {
         this.listPage = 0
@@ -60,9 +54,6 @@ export default {
       }
     }
   },
-  mounted() {
-    this.getWeather()
-  }
 }
 </script>
 

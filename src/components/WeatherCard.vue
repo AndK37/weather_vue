@@ -1,20 +1,12 @@
 <template>
     <div class="card">
         <div class="card_top">
-            <div class="card__main-info" v-if="cloudness > 66">
-                <img src="../assets/cloudness/cloud_64dp_E8EAED_FILL0_wght400_GRAD0_opsz48.svg" height="64px">
-                <span style="font-size: 32px;">Облачно</span>
-            </div>
-            <div class="card__main-info" v-else-if="cloudness > 33">
-                <img src="../assets/cloudness/partly_cloudy_day_64dp_E8EAED_FILL0_wght400_GRAD0_opsz48.svg" height="64px">
-                <span style="font-size: 32px;">Част. облачность</span>
-            </div>
-            <div class="card__main-info" v-else-if="cloudness > 0">
-                <img src="../assets/cloudness/clear_day_64dp_E8EAED_FILL0_wght400_GRAD0_opsz48.svg" height="64px">
-                <span style="font-size: 32px;">Ясно</span>
+            <div class="card__main-info">
+                <img v-bind:src="'https://openweathermap.org/img/wn/'+ icon +'@4x.png'" alt="no icon" height="64px" width="64px"/>
+                <span style="font-size: 32px;">{{ desc }}</span>
             </div>
             <div class="card__main-info">
-                <span>{{ temperature }} °</span>
+                <span>{{ temperature }} °{{ units }}</span>
             </div>
 
         </div>
@@ -42,11 +34,14 @@
 <script>
 export default {
     props: {
-        temperature: Number,
+        temperature: String,
         cloudness: Number,
         wind: Number,
         humidity: Number,
-        pressure: Number
+        pressure: Number,
+        desc: String,
+        icon: String,
+        units: String
     }
 }
 </script>
@@ -66,7 +61,8 @@ body {
     border-radius: 10px;
     transition: ease;
     padding: 3px;
-    width: 450px;
+    width: max-content;
+    height: max-content;
     color: aliceblue;
     padding: 5px;
     font-family: Arial, Helvetica, sans-serif;
