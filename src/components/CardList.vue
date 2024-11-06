@@ -1,41 +1,21 @@
 <template>
       <div v-if="!weather">Загрузка...</div>
-      <div v-else style="display: flex; justify-content: space-around;">
-        <weather-card 
-            :cloudness="weather['list'][0]['clouds']['all']" 
-            :temperature="weather['list'][0]['main']['temp']"
-            :wind="weather['list'][0]['wind']['speed']" 
-            :humidity="weather['list'][0]['main']['humidity']" 
-            :pressure="weather['list'][0]['main']['pressure']">
-            </weather-card>
-            <weather-card 
-            :cloudness="weather['list'][1]['clouds']['all']" 
-            :temperature="weather['list'][1]['main']['temp']"
-            :wind="weather['list'][1]['wind']['speed']" 
-            :humidity="weather['list'][1]['main']['humidity']" 
-            :pressure="weather['list'][1]['main']['pressure']">
-            </weather-card>
-            <weather-card 
-            :cloudness="weather['list'][2]['clouds']['all']" 
-            :temperature="weather['list'][2]['main']['temp']"
-            :wind="weather['list'][2]['wind']['speed']" 
-            :humidity="weather['list'][2]['main']['humidity']" 
-            :pressure="weather['list'][2]['main']['pressure']">
-            </weather-card>
-            <weather-card 
-            :cloudness="weather['list'][3]['clouds']['all']" 
-            :temperature="weather['list'][3]['main']['temp']"
-            :wind="weather['list'][3]['wind']['speed']" 
-            :humidity="weather['list'][3]['main']['humidity']" 
-            :pressure="weather['list'][3]['main']['pressure']">
-            </weather-card>
-            <weather-card 
-            :cloudness="weather['list'][4]['clouds']['all']" 
-            :temperature="weather['list'][4]['main']['temp']"
-            :wind="weather['list'][4]['wind']['speed']" 
-            :humidity="weather['list'][4]['main']['humidity']" 
-            :pressure="weather['list'][4]['main']['pressure']">
-        </weather-card>
+      <div v-else class="list">
+        <img @click="prevPage" v-show="listPage != 0" src="../assets/chevron_right_64dp_E8EAED_FILL0_wght400_GRAD0_opsz48.svg" alt="" style="rotate: 180deg; cursor: pointer;">
+        <div class="list__item" v-for="n in 5" :key="n">
+          <span class="list__time">{{ 	new Date(Number(weather['list'][n - 1 + listPage * 5]['dt']) * 1000).getHours() }}:00</span>
+          <weather-card 
+            :cloudness="weather['list'][n - 1 + listPage * 5]['clouds']['all']" 
+            :temperature="weather['list'][n - 1 + listPage * 5]['main']['temp']"
+            :wind="weather['list'][n - 1 + listPage * 5]['wind']['speed']" 
+            :humidity="weather['list'][n - 1 + listPage * 5]['main']['humidity']" 
+            :pressure="weather['list'][n - 1 + listPage * 5]['main']['pressure']">
+          </weather-card>
+        </div>
+        <img @click="nextPage" v-show="listPage != 7" src="../assets/chevron_right_64dp_E8EAED_FILL0_wght400_GRAD0_opsz48.svg" alt="" style="cursor: pointer;">
+      </div>
+      <div class="pages">
+        {{ listPage + 1 }} / 7
       </div>
 </template>
 
@@ -53,6 +33,7 @@ export default {
   data() {
     return {
       weather: null,
+      listPage:0
     }
   },
   methods: {
@@ -63,6 +44,20 @@ export default {
         .then(json => {
           this.weather = json;
         })
+    },
+    prevPage() {
+      if (this.listPage == 0) {
+        this.listPage = 0
+      } else {
+        this.listPage--
+      }
+    },
+    nextPage() {
+      if (this.listPage == 7) {
+        this.listPage = 7
+      } else {
+        this.listPage++
+      }
     }
   },
   mounted() {
@@ -72,5 +67,34 @@ export default {
 </script>
 
 <style>
+.list {
+  display: flex; 
+  justify-content: space-around;
+  flex-wrap: wrap;
+}
 
+.list__item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: translate 0.5s;
+}
+
+.list__item:hover {
+  translate: 0px -10px;
+}
+
+.list__time {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 48px;
+  color: aliceblue;
+  margin-bottom: 5px;
+}
+.pages {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 48px;
+  color: aliceblue;
+  display: flex;
+  justify-content: center;
+}
 </style>

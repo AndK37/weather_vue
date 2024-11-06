@@ -1,13 +1,17 @@
 <template>
     <div class="card">
         <div class="card_top">
-            <div class="card__main-info">
-                <svg xmlns="http://www.w3.org/2000/svg" height="48px" viewBox="0 -960 960 960" width="48px"
-                    fill="#e8eaed">
-                    <path
-                        d="M450-770v-150h60v150h-60Zm256 106-42-42 106-107 42 43-106 106Zm64 214v-60h150v60H770ZM450-40v-150h60v150h-60ZM253-665 148-770l42-42 106 106-43 41Zm518 517L664-254l41-41 108 104-42 43ZM40-450v-60h150v60H40Zm151 302-43-42 105-105 22 20 22 21-106 106Zm289-92q-100 0-170-70t-70-170q0-100 70-170t170-70q100 0 170 70t70 170q0 100-70 170t-170 70Zm0-60q75 0 127.5-52.5T660-480q0-75-52.5-127.5T480-660q-75 0-127.5 52.5T300-480q0 75 52.5 127.5T480-300Zm0-180Z" />
-                </svg>
-                <span style="font-size: 32px;">{{ cloudness }}</span>
+            <div class="card__main-info" v-if="cloudness > 66">
+                <img src="../assets/cloudness/cloud_64dp_E8EAED_FILL0_wght400_GRAD0_opsz48.svg" height="64px">
+                <span style="font-size: 32px;">Облачно</span>
+            </div>
+            <div class="card__main-info" v-else-if="cloudness > 33">
+                <img src="../assets/cloudness/partly_cloudy_day_64dp_E8EAED_FILL0_wght400_GRAD0_opsz48.svg" height="64px">
+                <span style="font-size: 32px;">Част. облачность</span>
+            </div>
+            <div class="card__main-info" v-else-if="cloudness > 0">
+                <img src="../assets/cloudness/clear_day_64dp_E8EAED_FILL0_wght400_GRAD0_opsz48.svg" height="64px">
+                <span style="font-size: 32px;">Ясно</span>
             </div>
             <div class="card__main-info">
                 <span>{{ temperature }} °</span>
@@ -62,11 +66,10 @@ body {
     border-radius: 10px;
     transition: ease;
     padding: 3px;
-    width: fit-content;
+    width: 450px;
     color: aliceblue;
     padding: 5px;
     font-family: Arial, Helvetica, sans-serif;
-    transition: translate 0.5s;
 }
 
 .card_top {
@@ -100,7 +103,4 @@ body {
     flex-direction: column;
 }
 
-.card:hover {
-    translate: 0px -10px;
-}
 </style>
