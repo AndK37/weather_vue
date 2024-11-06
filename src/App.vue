@@ -1,11 +1,12 @@
 <template>
-  <button @click="changeUnits">{{ currentUnits }}</button>
+  <button @click="changeUnits">°{{ currentUnits }}</button>
   <select id="sel" name="" v-model="selectedCity" @change="getWeather">
     <option id="op" v-for="(v, k) in cities" :value="k" :key="k">{{ v["City"] }}</option>
   </select>
+  <h1>{{ cities[selectedCity] }}</h1>
   <div v-if="!weatherNow">Загрузка...</div>
   <div v-else>
-    <weather-card class="main-card" 
+    <weather-card class="main-card"
       :cloudness="weatherNow['clouds']['all']" 
       :temperature="tmp"
       :wind="weatherNow['wind']['speed']" 
@@ -85,15 +86,17 @@ export default {
 
 <style>
 html, body {
-  height: 100%;
+  height: 100vh;
 
 }
 
 body {
   background: rgb(82, 153, 211);
-  background: linear-gradient(180deg, rgba(82, 153, 211, 1) 0%, rgba(75, 136, 162, 1) 100%);
+  background: linear-gradient(180deg, rgb(59, 127, 182) 0%, rgb(54, 102, 122) 100%);
   background-repeat: no-repeat;
   height: 100%;
+  padding-left: 5vw;
+  padding-right: 5vw;
 }
 
 select {
@@ -112,5 +115,16 @@ option {
   
 
 }
-
+button {
+  background: rgba(255, 255, 255, 0.2);
+    border-radius: 16px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 10px;
+    font-size: 32px;
+    color: aliceblue;
+    width: 64px;
+}
 </style>

@@ -3,7 +3,7 @@
         <div class="card_top">
             <div class="card__main-info">
                 <img v-bind:src="'https://openweathermap.org/img/wn/'+ icon +'@4x.png'" alt="no icon" height="64px" width="64px"/>
-                <span style="font-size: 32px;">{{ desc }}</span>
+                <span style="font-size: 2rem;">{{ desc }}</span>
             </div>
             <div class="card__main-info">
                 <span>{{ temperature }} °{{ units }}</span>

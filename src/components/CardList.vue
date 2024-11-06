@@ -1,25 +1,31 @@
 <template>
-      <div v-if="!weather">Загрузка...</div>
-      <div v-else class="list">
-        <img @click="prevPage" v-show="listPage != 0" src="../assets/chevron_right_64dp_E8EAED_FILL0_wght400_GRAD0_opsz48.svg" alt="" style="rotate: 180deg; cursor: pointer;">
-        <div class="list__item" v-for="n in 5" :key="n">
-          <span class="list__time">{{ 	new Date(Number(weather['list'][n - 1 + listPage * 5]['dt']) * 1000).getHours() }}:00</span>
-          <weather-card 
-            :cloudness="weather['list'][n - 1 + listPage * 5]['clouds']['all']" 
-            :temperature="weather['list'][n - 1 + listPage * 5]['main']['temp']"
-            :wind="weather['list'][n - 1 + listPage * 5]['wind']['speed']" 
-            :humidity="weather['list'][n - 1 + listPage * 5]['main']['humidity']" 
-            :pressure="weather['list'][n - 1 + listPage * 5]['main']['pressure']" 
-            :desc="weather['list'][n - 1 + listPage * 5]['weather'][0]['description']" 
-            :icon="weather['list'][n - 1 + listPage * 5]['weather'][0]['icon']" 
-            :units="units">
-          </weather-card>
-        </div>
-        <img @click="nextPage" v-show="listPage != 7" src="../assets/chevron_right_64dp_E8EAED_FILL0_wght400_GRAD0_opsz48.svg" alt="" style="cursor: pointer;">
+  <div class="cardList">
+    <img @click="prevPage" v-if="listPage != 1" src="../assets/chevron_right_64dp_E8EAED_FILL0_wght400_GRAD0_opsz48.svg"
+      alt="" style="rotate: 180deg; cursor: pointer; margin-right: 20px;">
+    <img v-else width="68px">
+    <div v-if="!weather">Загрузка...</div>
+    <div v-else class="list">
+      <div class="list__item" v-for="n in 5" :key="n">
+        <span class="list__time">{{ new Date(Number(weather['list'][n - 1 + listPage * 5]['dt']) * 1000).getHours()
+          }}:00</span>
+        <weather-card :cloudness="weather['list'][n - 1 + listPage * 5]['clouds']['all']"
+          :temperature="weather['list'][n - 1 + listPage * 5]['main']['temp']"
+          :wind="weather['list'][n - 1 + listPage * 5]['wind']['speed']"
+          :humidity="weather['list'][n - 1 + listPage * 5]['main']['humidity']"
+          :pressure="weather['list'][n - 1 + listPage * 5]['main']['pressure']"
+          :desc="weather['list'][n - 1 + listPage * 5]['weather'][0]['description']"
+          :icon="weather['list'][n - 1 + listPage * 5]['weather'][0]['icon']" :units="units">
+        </weather-card>
       </div>
-      <div class="pages">
-        {{ listPage + 1 }} / 7
-      </div>
+    </div>
+    <img @click="nextPage" v-if="listPage != 7" src="../assets/chevron_right_64dp_E8EAED_FILL0_wght400_GRAD0_opsz48.svg"
+      alt="" style="cursor: pointer; margin-left: 20px;">
+    <img v-else width="68px">
+
+  </div>
+  <div class="pages">
+    {{ listPage }} / 7
+  </div>
 </template>
 
 <script>
@@ -35,18 +41,30 @@ export default {
   },
   data() {
     return {
-      listPage:0
+      listPage: 1
     }
   },
   methods: {
     prevPage() {
-      if (this.listPage == 0) {
-        this.listPage = 0
+      var element = document.getElementsByClassName('list');
+      console.log(element)
+      element[0].classList.add('prev-page-anim');
+      element[0].addEventListener("animationend", function () {
+        element[0].classList.remove('prev-page-anim');
+      })
+      if (this.listPage == 1) {
+        this.listPage = 1
       } else {
         this.listPage--
       }
     },
     nextPage() {
+      var element = document.getElementsByClassName('list');
+      console.log(element)
+      element[0].classList.add('next-page-anim');
+      element[0].addEventListener("animationend", function () {
+        element[0].classList.remove('next-page-anim');
+      })
       if (this.listPage == 7) {
         this.listPage = 7
       } else {
@@ -58,10 +76,17 @@ export default {
 </script>
 
 <style>
+.cardList {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
 .list {
-  display: flex; 
-  justify-content: space-around;
+  display: flex;
+  justify-content: space-between;
   flex-wrap: wrap;
+  flex: 1 1 0px;
 }
 
 .list__item {
@@ -69,7 +94,70 @@ export default {
   flex-direction: column;
   align-items: center;
   transition: translate 0.5s;
+  animation-timing-function: cubic-bezier(0.1, -0.6, 0.2, 0);
 }
+
+.next-page-anim {
+  animation-name: cssAnimation;
+  animation-duration: 1s;
+  animation-iteration-count: 1;
+  animation-timing-function: cubic-bezier(0.36, 0, 0.66, -0.56);
+  animation-fill-mode: forwards;
+}
+
+@keyframes cssAnimation {
+  0% {}
+
+  25% {
+    transform: translate(-100vw);
+  }
+
+  50% {
+    opacity: 0;
+  }
+
+  75% {
+    transform: translate(100vw);
+
+  }
+
+  100% {
+    opacity: 1;
+    transform: translate(0vw);
+  }
+}
+
+.prev-page-anim {
+  animation-name: revcssAnimation;
+  animation-duration: 1s;
+  animation-iteration-count: 1;
+  animation-timing-function: cubic-bezier(0.34, 1.56, 0.64, 1);
+  animation-fill-mode: forwards;
+  animation-direction: reverse;
+}
+
+@keyframes revcssAnimation {
+  0% {}
+
+  25% {
+    transform: translate(100vw);
+  }
+
+  50% {
+    opacity: 0;
+  }
+
+  75% {
+    transform: translate(-100vw);
+
+  }
+
+  100% {
+    opacity: 1;
+    transform: translate(0vw);
+  }
+}
+
 
 .list__item:hover {
   translate: 0px -10px;
@@ -81,6 +169,7 @@ export default {
   color: aliceblue;
   margin-bottom: 5px;
 }
+
 .pages {
   font-family: Arial, Helvetica, sans-serif;
   font-size: 48px;
