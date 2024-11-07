@@ -99,9 +99,9 @@ export default {
 
 .next-page-anim {
   animation-name: cssAnimation;
-  animation-duration: 1s;
+  animation-duration: 1.2s;
   animation-iteration-count: 1;
-  animation-timing-function: cubic-bezier(0.36, 0, 0.66, -0.56);
+  animation-timing-function: cubic-bezier(0.68, -0.6, 0.32, 1.6);
   animation-fill-mode: forwards;
 }
 
@@ -129,11 +129,11 @@ export default {
 
 .prev-page-anim {
   animation-name: revcssAnimation;
-  animation-duration: 1s;
+  animation-duration: 1.2s;
   animation-iteration-count: 1;
-  animation-timing-function: cubic-bezier(0.34, 1.56, 0.64, 1);
+  animation-timing-function: cubic-bezier(0.68, -0.6, 0.32, 1.6);
   animation-fill-mode: forwards;
-  animation-direction: reverse;
+
 }
 
 @keyframes revcssAnimation {

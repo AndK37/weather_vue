@@ -1,75 +1,62 @@
 <template>
-  <button @click="changeUnits">°{{ currentUnits }}</button>
-  <select id="sel" name="" v-model="selectedCity" @change="getWeather">
-    <option id="op" v-for="(v, k) in cities" :value="k" :key="k">{{ v["City"] }}</option>
-  </select>
-  <h1>{{ cities[selectedCity] }}</h1>
-  <div v-if="!weatherNow">Загрузка...</div>
+  <my-header ref="header" :currentUnits="currentUnits" :cities="cities"></my-header>
+
+  <div style="display: flex; justify-content: center; color: aliceblue; font-size: 8rem;" v-if="!weatherNow">Загрузка...</div>
   <div v-else>
-    <weather-card class="main-card"
-      :cloudness="weatherNow['clouds']['all']" 
-      :temperature="tmp"
-      :wind="weatherNow['wind']['speed']" 
-      :humidity="weatherNow['main']['humidity']" 
-      :pressure="weatherNow['main']['pressure']" 
-      :desc="weatherNow['weather'][0]['description']" 
-      :icon="weatherNow['weather'][0]['icon']" 
-      :units="currentUnits">
-    </weather-card>
-    <card-list :weather="weatherForecast" :units="currentUnits">
-    </card-list>
+    <weather-main-card class="main-card" :weatherNow="weatherNow" :units="currentUnits" />
+    <card-list :weather="weatherForecast" :units="currentUnits" />
   </div>
 
 
 </template>
 <script>
 import CardList from './components/CardList.vue'
-import WeatherCard from './components/WeatherCard.vue'
+import MyHeader from './components/MyHeader.vue';
+import WeatherMainCard from './components/WeatherMainCard.vue';
 export default {
   components: {
     "card-list": CardList,
-    "weather-card": WeatherCard
+    "my-header": MyHeader,
+    "weather-main-card": WeatherMainCard
   },
   data() {
     return {
       weatherNow: null,
       weatherForecast: null,
       cities: [],
-      selectedCity: 0,
       currentUnits: 'C'
     }
   },
   methods: {
     getWeather() {
-      fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${this.cities[this.selectedCity]?.Lat}&lon=${this.cities[this.selectedCity]?.Lon}&appid=de97e3b38fb8be62d9aa634927b0b35c&units=metric`)
+      fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${this.$refs.header.cities[this.$refs.header.selectedCity]?.Lat}&lon=${this.$refs.header.cities[this.$refs.header.selectedCity]?.Lon}&appid=de97e3b38fb8be62d9aa634927b0b35c&units=metric`)
         .then(resp => resp.json())
         .then(json => {
           this.weatherNow = json;
-          this.tmp = this.weatherNow['main']['temp'].toFixed(0)
+          this.weatherNow['main']['temp'] = this.weatherNow['main']['temp'].toFixed(0)
         })
-      fetch(`https://api.openweathermap.org/data/2.5/forecast?lat=${this.cities[this.selectedCity]?.Lat}&lon=${this.cities[this.selectedCity]?.Lon}&appid=de97e3b38fb8be62d9aa634927b0b35c&units=metric`)
+      fetch(`https://api.openweathermap.org/data/2.5/forecast?lat=${this.$refs.header.cities[this.$refs.header.selectedCity]?.Lat}&lon=${this.$refs.header.cities[this.$refs.header.selectedCity]?.Lon}&appid=de97e3b38fb8be62d9aa634927b0b35c&units=metric`)
         .then(resp => resp.json())
         .then(json => {
           this.weatherForecast = json;
           for (let i = 0; i < 40; i++) {
             this.weatherForecast['list'][i]['main']['temp'] = (this.weatherForecast['list'][i]['main']['temp']).toFixed(0)
           }
-      })
-      
+        })
+
     },
     changeUnits() {
       if (this.currentUnits == 'C') {
         this.currentUnits = 'F'
-        this.tmp = ((this.tmp * 9/5) + 32).toFixed(0)
+        this.weatherNow['main']['temp'] = ((this.weatherNow['main']['temp'] * 9 / 5) + 32).toFixed(0)
         for (let i = 0; i < 40; i++) {
-          this.weatherForecast['list'][i]['main']['temp'] = ((this.weatherForecast['list'][i]['main']['temp'] * 9/5) + 32).toFixed(0)
+          this.weatherForecast['list'][i]['main']['temp'] = ((this.weatherForecast['list'][i]['main']['temp'] * 9 / 5) + 32).toFixed(0)
         }
-      }
-      else if (this.currentUnits == 'F') {
+      } else if (this.currentUnits == 'F') {
         this.currentUnits = 'C'
-        this.tmp = ((this.tmp - 32) * 5/9).toFixed(0)
+        this.weatherNow['main']['temp'] = ((this.weatherNow['main']['temp'] - 32) * 5 / 9).toFixed(0)
         for (let i = 0; i < 40; i++) {
-          this.weatherForecast['list'][i]['main']['temp'] = ((this.weatherForecast['list'][i]['main']['temp'] - 32) * 5/9).toFixed(0)
+          this.weatherForecast['list'][i]['main']['temp'] = ((this.weatherForecast['list'][i]['main']['temp'] - 32) * 5 / 9).toFixed(0)
         }
       }
     }
@@ -81,11 +68,14 @@ export default {
         this.cities = json;
       })
   }
+
+
 }
 </script>
 
 <style>
-html, body {
+html,
+body {
   height: 100vh;
 
 }
@@ -101,30 +91,34 @@ body {
 
 select {
   background: rgba(255, 255, 255, 0.2);
-    border-radius: 16px;
-    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-    backdrop-filter: blur(5px);
-    -webkit-backdrop-filter: blur(5px);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    border-radius: 10px;
-    font-size: 32px;
-    color: aliceblue;
+  border-radius: 16px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 10px;
+  font-size: 32px;
+  color: aliceblue;
 }
+
 option {
   background-color: rgb(82, 153, 211);
-  
+
 
 }
+
 button {
   background: rgba(255, 255, 255, 0.2);
-    border-radius: 16px;
-    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-    backdrop-filter: blur(5px);
-    -webkit-backdrop-filter: blur(5px);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    border-radius: 10px;
-    font-size: 32px;
-    color: aliceblue;
-    width: 64px;
+  border-radius: 16px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 10px;
+  font-size: 32px;
+  color: aliceblue;
+  width: 64px;
 }
+
+
 </style>
