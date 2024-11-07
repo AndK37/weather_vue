@@ -3,7 +3,7 @@
         <div class="card_top">
             <div class="card__main-info">
                 <img v-bind:src="'https://openweathermap.org/img/wn/'+ weatherNow['weather'][0]['icon'] +'@4x.png'" alt="no icon" height="128px" width="128px"/>
-                <span style="font-size: 4rem;">{{ weatherNow['weather'][0]['description'] }}</span>
+                <span class="card_bot">{{ weatherNow['weather'][0]['description'] }}</span>
             </div>
             <div class="card__main-info">
                 <span>{{ weatherNow['main']['temp'] }} °{{ units }}</span>
@@ -63,7 +63,7 @@ body {
 }
 
 .card_top {
-    font-size: 64px;
+    font-size: 10rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -74,7 +74,7 @@ body {
 .card_bot {
     display: flex;
     justify-content: space-between;
-    font-size: 32px;
+    font-size: 4rem;
     padding: 5px;
 }
 
@@ -92,5 +92,48 @@ body {
     display: flex;
     flex-direction: column;
 }
+/* 2xl */
+@media (max-width: 1660px) {
+    .card_top {
+        font-size: 6rem;
+    }
+    .card_bot {
+        font-size: 3rem;
+    }
+}
 
+/* xl */
+@media (max-width: 1400px) {
+    .card_top {
+        font-size: 4rem;
+    }
+    .card_bot {
+        font-size: 2rem;
+    }
+}
+
+/* lg */
+@media (max-width: 780px) {
+    .card_top {
+        font-size: 2rem;
+    }
+    .card_bot {
+        font-size: 1rem;
+    }
+}
+
+/* md */
+@media (max-width: 768px) {
+
+}
+
+/* sm */
+@media (max-width: 640px) {
+
+}
+
+/* xs */
+@media (max-width: 475px) {
+
+}
 </style>

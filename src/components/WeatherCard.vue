@@ -2,8 +2,9 @@
     <div class="card">
         <div class="card_top">
             <div class="card__main-info">
-                <img v-bind:src="'https://openweathermap.org/img/wn/'+ icon +'@4x.png'" alt="no icon" height="64px" width="64px"/>
-                <span style="font-size: 2rem;">{{ desc }}</span>
+                <img v-bind:src="'https://openweathermap.org/img/wn/' + icon + '@4x.png'" alt="no icon" height="64px"
+                    width="64px" />
+                <span class="card_bot">{{ desc }}</span>
             </div>
             <div class="card__main-info">
                 <span>{{ temperature }} °{{ units }}</span>
@@ -88,15 +89,57 @@ body {
     display: flex;
     flex-direction: column;
 }
-.card__sub-info_1, .card__sub-info_2 {
+
+.card__sub-info_1,
+.card__sub-info_2 {
     margin-right: 30px;
 }
-.card__sub-info_2, .card__sub-info_3 {
+
+.card__sub-info_2,
+.card__sub-info_3 {
     text-align: end;
 }
+
 .card__main-info {
     display: flex;
     flex-direction: column;
 }
 
+/* 2xl */
+@media (max-width: 1536px) {
+    .card_top {
+        font-size: 4rem;
+    }
+    .card_bot {
+        font-size: 2rem;
+    }
+}
+
+/* xl */
+@media (max-width: 1280px) {
+
+}
+
+/* lg */
+@media (max-width: 1024px) {
+    .card_top {
+        font-size: 2rem;
+    }
+    .card_bot {
+        font-size: 1rem;
+    }
+}
+
+/* md */
+@media (max-width: 768px) {}
+
+/* sm */
+@media (max-width: 640px) {
+    .card_top {
+        font-size: 1rem;
+    }
+}
+
+/* xs */
+@media (max-width: 475px) {}
 </style>

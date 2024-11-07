@@ -1,18 +1,27 @@
 <template>
-  <my-header ref="header" :currentUnits="currentUnits" :cities="cities"></my-header>
-
-  <div style="display: flex; justify-content: center; color: aliceblue; font-size: 8rem;" v-if="!weatherNow">Загрузка...</div>
-  <div v-else>
-    <weather-main-card class="main-card" :weatherNow="weatherNow" :units="currentUnits" />
-    <card-list :weather="weatherForecast" :units="currentUnits" />
+  <div class="app">
+    <my-header ref="header" :currentUnits="currentUnits" :cities="cities"></my-header>
+    <div class="app_top">
+      <div class="app__load" v-if="!weatherNow">
+        Загрузка...</div>
+      <div v-else>
+        <weather-main-card class="main-card" :weatherNow="weatherNow" :units="currentUnits" />
+      </div>
+    </div>
+    <div class="app_bot">
+      <div class="app__load" v-if="!weatherNow">
+        Загрузка...</div>
+      <div v-else>
+        <card-list :weather="weatherForecast" :units="currentUnits" />
+      </div>
+    </div>
   </div>
-
-
 </template>
 <script>
-import CardList from './components/CardList.vue'
+import CardList from './components/CardList.vue';
 import MyHeader from './components/MyHeader.vue';
 import WeatherMainCard from './components/WeatherMainCard.vue';
+
 export default {
   components: {
     "card-list": CardList,
@@ -76,17 +85,34 @@ export default {
 <style>
 html,
 body {
-  height: 100vh;
-
+  margin: 0;
+  height: 100%;
 }
+
+.app {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100vh;
+  padding-left: 5vw;
+  padding-right: 5vw;
+}
+
+.app__load {
+  display: flex;
+  justify-content: center;
+  color: aliceblue;
+  font-size: 8rem;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+
 
 body {
   background: rgb(82, 153, 211);
   background: linear-gradient(180deg, rgb(59, 127, 182) 0%, rgb(54, 102, 122) 100%);
   background-repeat: no-repeat;
-  height: 100%;
-  padding-left: 5vw;
-  padding-right: 5vw;
+
 }
 
 select {
@@ -103,8 +129,6 @@ select {
 
 option {
   background-color: rgb(82, 153, 211);
-
-
 }
 
 button {
@@ -120,5 +144,45 @@ button {
   width: 64px;
 }
 
+/* 2xl */
+@media (max-width: 1536px) {
+  .app__load {
+    font-size: 6rem;
+  }
+}
 
+/* xl */
+@media (max-width: 1280px) {
+  .app__load {
+    font-size: 5rem;
+  }
+}
+
+/* lg */
+@media (max-width: 1024px) {
+  .app__load {
+    font-size: 4rem;
+  }
+}
+
+/* md */
+@media (max-width: 768px) {
+  .app__load {
+    font-size: 3rem;
+  }
+}
+
+/* sm */
+@media (max-width: 640px) {
+  .app__load {
+    font-size: 2rem;
+  }
+}
+
+/* xs */
+@media (max-width: 475px) {
+  .app__load {
+    font-size: 1rem;
+  }
+}
 </style>

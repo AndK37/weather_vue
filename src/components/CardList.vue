@@ -47,7 +47,6 @@ export default {
   methods: {
     prevPage() {
       var element = document.getElementsByClassName('list');
-      console.log(element)
       element[0].classList.add('prev-page-anim');
       element[0].addEventListener("animationend", function () {
         element[0].classList.remove('prev-page-anim');
@@ -60,7 +59,6 @@ export default {
     },
     nextPage() {
       var element = document.getElementsByClassName('list');
-      console.log(element)
       element[0].classList.add('next-page-anim');
       element[0].addEventListener("animationend", function () {
         element[0].classList.remove('next-page-anim');
@@ -75,7 +73,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .cardList {
   display: flex;
   justify-content: space-between;
@@ -84,7 +82,7 @@ export default {
 
 .list {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-evenly;
   flex-wrap: wrap;
   flex: 1 1 0px;
 }
@@ -177,4 +175,30 @@ export default {
   display: flex;
   justify-content: center;
 }
+
+/* 2xl */
+@media (max-width: 1536px) {}
+
+/* xl */
+@media (max-width: 1280px) {
+  .list__time {
+    font-size: 2rem;
+  }
+}
+
+/* lg */
+@media (max-width: 1024px) {}
+
+/* md */
+@media (max-width: 768px) {
+  .list__time {
+    font-size: 1rem;
+  }
+}
+
+/* sm */
+@media (max-width: 640px) {}
+
+/* xs */
+@media (max-width: 475px) {}
 </style>
