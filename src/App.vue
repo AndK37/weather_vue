@@ -93,7 +93,7 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  height: 100vh;
+  height: 100%;
   padding-left: 5vw;
   padding-right: 5vw;
 }
@@ -109,10 +109,7 @@ body {
 
 
 body {
-  background: rgb(82, 153, 211);
-  background: linear-gradient(180deg, rgb(59, 127, 182) 0%, rgb(54, 102, 122) 100%);
-  background-repeat: no-repeat;
-
+  background-color: rgb(82, 153, 211);
 }
 
 select {
