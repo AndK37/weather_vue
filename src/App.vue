@@ -4,7 +4,7 @@
     <div class="app_top">
       <div class="app__load" v-if="!weatherNow">
         Загрузка...</div>
-      <div v-else>
+      <div class="app__main" v-else>
         <weather-main-card class="main-card" :weatherNow="weatherNow" :units="currentUnits" />
         <feature-list></feature-list>
       </div>
@@ -18,11 +18,13 @@
     </div>
   </div>
 </template>
+
 <script>
 import CardList from './components/CardList.vue';
 import MyHeader from './components/MyHeader.vue';
 import WeatherMainCard from './components/WeatherMainCard.vue';
 import FeatureList from './components/FeatureList.vue';
+
 export default {
   components: {
     "card-list": CardList,
@@ -35,7 +37,8 @@ export default {
       weatherNow: null,
       weatherForecast: null,
       cities: [],
-      currentUnits: 'C'
+      currentUnits: 'C',
+      feat: Object.keys(localStorage),
     }
   },
   methods: {
@@ -70,9 +73,13 @@ export default {
           this.weatherForecast['list'][i]['main']['temp'] = ((this.weatherForecast['list'][i]['main']['temp'] - 32) * 5 / 9).toFixed(0)
         }
       }
-    }
+    },
+    
   },
   mounted() {
+    if (Object.keys(localStorage) === undefined) {
+        localStorage[0] = 1;
+    }
     fetch("cities.json")
       .then(resp => resp.json())
       .then(json => {
@@ -100,6 +107,12 @@ body {
   padding-left: 5vw;
   padding-right: 5vw;
   gap: 40px
+}
+
+.app__main {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
 }
 
 .app__load {

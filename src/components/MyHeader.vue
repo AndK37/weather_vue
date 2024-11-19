@@ -1,11 +1,10 @@
 <template>
     <div class="header">
-        <!-- <h1>Погода в {{ cities[selectedCity][City] }}</h1> -->
         <div class="header__left">
             <select class="header__select" name="" v-model="selectedCity" @change="getWeather">
-            <option v-for="(v, k) in cities" :value="k" :key="k">{{ v["City"] }}</option>
-        </select>
-        <button @click="setFeatured">★</button>
+                <option v-for="(v, k) in cities" :value="k" :key="k">{{ v["City"] }}</option>
+            </select>
+            <button @click="setFeatured">☆</button>
         </div>
         <div class="header__right">
             <button @click="changeUnits">°{{ currentUnits }}</button>
@@ -32,8 +31,14 @@ export default {
             this.$parent.getWeather()
         },
         setFeatured() {
-            localStorage[String(this.selectedCity)] = 1;
-            console.log(localStorage[String(this.selectedCity)]);
+            if (localStorage[String(this.selectedCity)] == 1) {
+                localStorage.removeItem(String(this.selectedCity));
+                console.log("rem");
+            }
+            else {
+                localStorage[String(this.selectedCity)] = 1;
+                console.log("set");
+            }
         }
     }
 }
@@ -69,24 +74,16 @@ export default {
 }
 
 /* xl */
-@media (max-width: 1280px) {
-
-}
+@media (max-width: 1280px) {}
 
 /* lg */
-@media (max-width: 1024px) {
-
-}
+@media (max-width: 1024px) {}
 
 /* md */
-@media (max-width: 768px) {
-
-}
+@media (max-width: 768px) {}
 
 /* sm */
-@media (max-width: 640px) {
-
-}
+@media (max-width: 640px) {}
 
 /* xs */
 @media (max-width: 475px) {

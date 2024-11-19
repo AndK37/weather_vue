@@ -1,25 +1,37 @@
 <template>
-    <div class="list" >
-        <div class="list__item" :v-for="n in feature">
-            <span>{{ n }}</span>
-        </div>
+    <div class="list">
+        <button class="list__item" v-for="n in feat" :key="n" :id="n" @click="setFeature">{{ this.$parent.cities[n]["City"] }} </button>
     </div>
 </template>
+
 <script>
 export default {
     data() {
         return {
-            feature: Object.keys(localStorage),
+            feat: Object.keys(localStorage),
         }
     },
     methods: {
-
+        setFeature() {
+            
+        }
     },
     mounted() {
-        console.log(this.feature);
+        if (Object.keys(localStorage) === undefined) {
+            localStorage[0] = 1;
+        }
     }
 }
 </script>
-<style>
 
+<style scoped>
+.list {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    gap: 10px;
+}
+.list__item {
+    width: 100%;
+}
 </style>

@@ -1,30 +1,30 @@
 <template>
   <div class="cardList">
-    <img @click="prevPage" v-if="listPage != 1" src="../assets/chevron_right_64dp_E8EAED_FILL0_wght400_GRAD0_opsz48.svg"
+    <img @click="prevPage" v-if="listPage != 0" src="../assets/chevron_right_64dp_E8EAED_FILL0_wght400_GRAD0_opsz48.svg"
       alt="" style="rotate: 180deg; cursor: pointer; margin-right: 20px;">
     <img v-else width="68px">
     <div v-if="!weather">Загрузка...</div>
     <div v-else class="list">
-      <div class="list__item" v-for="n in 5" :key="n">
-        <span class="list__time">{{ new Date(Number(weather['list'][pagination(n)]['dt']) * 1000).getHours()
-          }}:00</span>
-        <weather-card :cloudness="weather['list'][pagination(n)]['clouds']['all']"
+      <div class="list__item" v-for="n in 4" :key="n">
+        <span class="list__time">{{ new Date(Number(weather['list'][pagination(n)]['dt']) * 1000).getHours() }}:00</span>
+        <weather-card 
+          :cloudness="weather['list'][pagination(n)]['clouds']['all']"
           :temperature="weather['list'][pagination(n)]['main']['temp']"
           :wind="weather['list'][pagination(n)]['wind']['speed']"
           :humidity="weather['list'][pagination(n)]['main']['humidity']"
           :pressure="weather['list'][pagination(n)]['main']['pressure']"
           :desc="weather['list'][pagination(n)]['weather'][0]['description']"
-          :icon="weather['list'][pagination(n)]['weather'][0]['icon']" :units="units">
+          :icon="weather['list'][pagination(n)]['weather'][0]['icon']" 
+          :units="units">
         </weather-card>
       </div>
     </div>
-    <img @click="nextPage" v-if="listPage != 7" src="../assets/chevron_right_64dp_E8EAED_FILL0_wght400_GRAD0_opsz48.svg"
+    <img @click="nextPage" v-if="listPage != 9" src="../assets/chevron_right_64dp_E8EAED_FILL0_wght400_GRAD0_opsz48.svg"
       alt="" style="cursor: pointer; margin-left: 20px;">
     <img v-else width="68px">
-
   </div>
   <div class="pages">
-    {{ listPage }} / 7
+    {{ listPage + 1 }} / 10
   </div>
 </template>
 
@@ -41,7 +41,7 @@ export default {
   },
   data() {
     return {
-      listPage: 1
+      listPage: 0
     }
   },
   methods: {
@@ -51,8 +51,8 @@ export default {
       element[0].addEventListener("animationend", function () {
         element[0].classList.remove('prev-page-anim');
       })
-      if (this.listPage == 1) {
-        this.listPage = 1
+      if (this.listPage == 0) {
+        this.listPage = 0
       } else {
         this.listPage--
       }
@@ -63,14 +63,14 @@ export default {
       element[0].addEventListener("animationend", function () {
         element[0].classList.remove('next-page-anim');
       })
-      if (this.listPage == 7) {
-        this.listPage = 7
+      if (this.listPage == 9) {
+        this.listPage = 9
       } else {
         this.listPage++
       }
     },
     pagination(n) {
-      return n - 1 + this.listPage * 5;
+      return n - 1 + this.listPage * 4;
     }
   },
 }
