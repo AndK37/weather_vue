@@ -1,12 +1,16 @@
 <template>
     <div class="header">
         <!-- <h1>Погода в {{ cities[selectedCity][City] }}</h1> -->
-        <select class="header__select" name="" v-model="selectedCity" @change="getWeather">
+        <div class="header__left">
+            <select class="header__select" name="" v-model="selectedCity" @change="getWeather">
             <option v-for="(v, k) in cities" :value="k" :key="k">{{ v["City"] }}</option>
         </select>
-        <button @click="changeUnits">°{{ currentUnits }}</button>
+        <button @click="setFeatured">★</button>
+        </div>
+        <div class="header__right">
+            <button @click="changeUnits">°{{ currentUnits }}</button>
+        </div>
     </div>
-
 </template>
 
 <script>
@@ -27,6 +31,10 @@ export default {
         getWeather() {
             this.$parent.getWeather()
         },
+        setFeatured() {
+            localStorage[String(this.selectedCity)] = 1;
+            console.log(localStorage[String(this.selectedCity)]);
+        }
     }
 }
 </script>

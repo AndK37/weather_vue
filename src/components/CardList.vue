@@ -6,15 +6,15 @@
     <div v-if="!weather">Загрузка...</div>
     <div v-else class="list">
       <div class="list__item" v-for="n in 5" :key="n">
-        <span class="list__time">{{ new Date(Number(weather['list'][n - 1 + listPage * 5]['dt']) * 1000).getHours()
+        <span class="list__time">{{ new Date(Number(weather['list'][pagination(n)]['dt']) * 1000).getHours()
           }}:00</span>
-        <weather-card :cloudness="weather['list'][n - 1 + listPage * 5]['clouds']['all']"
-          :temperature="weather['list'][n - 1 + listPage * 5]['main']['temp']"
-          :wind="weather['list'][n - 1 + listPage * 5]['wind']['speed']"
-          :humidity="weather['list'][n - 1 + listPage * 5]['main']['humidity']"
-          :pressure="weather['list'][n - 1 + listPage * 5]['main']['pressure']"
-          :desc="weather['list'][n - 1 + listPage * 5]['weather'][0]['description']"
-          :icon="weather['list'][n - 1 + listPage * 5]['weather'][0]['icon']" :units="units">
+        <weather-card :cloudness="weather['list'][pagination(n)]['clouds']['all']"
+          :temperature="weather['list'][pagination(n)]['main']['temp']"
+          :wind="weather['list'][pagination(n)]['wind']['speed']"
+          :humidity="weather['list'][pagination(n)]['main']['humidity']"
+          :pressure="weather['list'][pagination(n)]['main']['pressure']"
+          :desc="weather['list'][pagination(n)]['weather'][0]['description']"
+          :icon="weather['list'][pagination(n)]['weather'][0]['icon']" :units="units">
         </weather-card>
       </div>
     </div>
@@ -68,6 +68,9 @@ export default {
       } else {
         this.listPage++
       }
+    },
+    pagination(n) {
+      return n - 1 + this.listPage * 5;
     }
   },
 }

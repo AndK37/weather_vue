@@ -6,6 +6,7 @@
         Загрузка...</div>
       <div v-else>
         <weather-main-card class="main-card" :weatherNow="weatherNow" :units="currentUnits" />
+        <feature-list></feature-list>
       </div>
     </div>
     <div class="app_bot">
@@ -21,12 +22,13 @@
 import CardList from './components/CardList.vue';
 import MyHeader from './components/MyHeader.vue';
 import WeatherMainCard from './components/WeatherMainCard.vue';
-
+import FeatureList from './components/FeatureList.vue';
 export default {
   components: {
     "card-list": CardList,
     "my-header": MyHeader,
-    "weather-main-card": WeatherMainCard
+    "weather-main-card": WeatherMainCard,
+    "feature-list": FeatureList
   },
   data() {
     return {
@@ -38,13 +40,13 @@ export default {
   },
   methods: {
     getWeather() {
-      fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${this.$refs.header.cities[this.$refs.header.selectedCity]?.Lat}&lon=${this.$refs.header.cities[this.$refs.header.selectedCity]?.Lon}&appid=de97e3b38fb8be62d9aa634927b0b35c&units=metric`)
+      fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${this.$refs.header.cities[this.$refs.header.selectedCity]?.Lat}&lon=${this.$refs.header.cities[this.$refs.header.selectedCity]?.Lon}&appid=de97e3b38fb8be62d9aa634927b0b35c&units=metric&lang=ru`)
         .then(resp => resp.json())
         .then(json => {
           this.weatherNow = json;
           this.weatherNow['main']['temp'] = this.weatherNow['main']['temp'].toFixed(0)
         })
-      fetch(`https://api.openweathermap.org/data/2.5/forecast?lat=${this.$refs.header.cities[this.$refs.header.selectedCity]?.Lat}&lon=${this.$refs.header.cities[this.$refs.header.selectedCity]?.Lon}&appid=de97e3b38fb8be62d9aa634927b0b35c&units=metric`)
+      fetch(`https://api.openweathermap.org/data/2.5/forecast?lat=${this.$refs.header.cities[this.$refs.header.selectedCity]?.Lat}&lon=${this.$refs.header.cities[this.$refs.header.selectedCity]?.Lon}&appid=de97e3b38fb8be62d9aa634927b0b35c&units=metric&lang=ru`)
         .then(resp => resp.json())
         .then(json => {
           this.weatherForecast = json;
@@ -76,7 +78,8 @@ export default {
       .then(json => {
         this.cities = json;
       })
-  }
+  },
+
 
 
 }
@@ -96,6 +99,7 @@ body {
   height: 100%;
   padding-left: 5vw;
   padding-right: 5vw;
+  gap: 40px
 }
 
 .app__load {
