@@ -3,7 +3,7 @@
     <my-header ref="header" :currentUnits="currentUnits" :cities="cities" :SC="selectedCity"></my-header>
     <div class="app_top">
       <div class="app__load" v-if="!weatherNow">
-        Загрузка...</div>
+        {{ $t("loading") }}</div>
       <div class="app__main" v-else>
         <weather-main-card class="main-card" :weatherNow="weatherNow" :units="currentUnits" />
         <feature-list @sendSC="getFeature"></feature-list>
@@ -11,7 +11,7 @@
     </div>
     <div class="app_bot">
       <div class="app__load" v-if="!weatherNow">
-        Загрузка...</div>
+        {{ $t("loading") }}</div>
       <div v-else>
         <card-list :weather="weatherForecast" :units="currentUnits" />
       </div>
@@ -44,13 +44,13 @@ export default {
   },
   methods: {
     getWeather() {
-      fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${this.$refs.header.cities[this.$refs.header.selectedCity]?.Lat}&lon=${this.$refs.header.cities[this.$refs.header.selectedCity]?.Lon}&appid=de97e3b38fb8be62d9aa634927b0b35c&units=metric&lang=ru`)
+      fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${this.$refs.header.cities[this.$refs.header.selectedCity]?.Lat}&lon=${this.$refs.header.cities[this.$refs.header.selectedCity]?.Lon}&appid=de97e3b38fb8be62d9aa634927b0b35c&units=metric&lang=${this.$t("api")}`)
         .then(resp => resp.json())
         .then(json => {
           this.weatherNow = json;
           this.weatherNow['main']['temp'] = this.weatherNow['main']['temp'].toFixed(0)
         })
-      fetch(`https://api.openweathermap.org/data/2.5/forecast?lat=${this.$refs.header.cities[this.$refs.header.selectedCity]?.Lat}&lon=${this.$refs.header.cities[this.$refs.header.selectedCity]?.Lon}&appid=de97e3b38fb8be62d9aa634927b0b35c&units=metric&lang=ru`)
+      fetch(`https://api.openweathermap.org/data/2.5/forecast?lat=${this.$refs.header.cities[this.$refs.header.selectedCity]?.Lat}&lon=${this.$refs.header.cities[this.$refs.header.selectedCity]?.Lon}&appid=de97e3b38fb8be62d9aa634927b0b35c&units=metric&lang=${this.$t("api")}`)
         .then(resp => resp.json())
         .then(json => {
           this.weatherForecast = json;
@@ -82,7 +82,7 @@ export default {
   },
   mounted() {
     if (Object.keys(localStorage) === undefined) {
-        localStorage[0] = 1;
+      localStorage[0] = 1;
     }
     fetch("cities.json")
       .then(resp => resp.json())

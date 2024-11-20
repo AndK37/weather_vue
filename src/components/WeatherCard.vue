@@ -13,9 +13,9 @@
         </div>
         <div class="card_bot">
             <div class="card__sub-info card__sub-info_1">
-                <span>Ветер</span>
-                <span>Влажность</span>
-                <span>Давление</span>
+                <span>{{ $t("wind") }}</span>
+                <span>{{ $t("humidity") }}</span>
+                <span>{{ $t("pressure") }}</span>
             </div>
             <div class="card__sub-info card__sub-info_2">
                 <span>{{ wind }}</span>
@@ -23,9 +23,9 @@
                 <span>{{ pressure }}</span>
             </div>
             <div class="card__sub-info card__sub-info_3">
-                <span>м/с</span>
+                <span>{{ $t("speed") }}</span>
                 <span>%</span>
-                <span>гПа</span>
+                <span>{{ $t("pres") }}</span>
             </div>
         </div>
     </div>

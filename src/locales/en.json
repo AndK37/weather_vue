@@ -1,0 +1,9 @@
+{
+  "loading": "Loading...",
+  "wind": "Wind",
+  "humidity": "Humidity",
+  "pressure": "Pressure",
+  "speed": "m/s",
+  "pres": "hPa",
+  "api": "en"
+}

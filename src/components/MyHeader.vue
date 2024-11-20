@@ -8,6 +8,11 @@
         </div>
         <div class="header__right">
             <button @click="changeUnits">°{{ currentUnits }}</button>
+            <select v-model="$i18n.locale" @change="getWeather">
+                <option v-for="(lang, i) in langs" :key="`Lang${i}`" :value="lang">
+                    {{ lang }}
+                </option>
+            </select>
         </div>
     </div>
 </template>
@@ -17,6 +22,7 @@ export default {
     data() {
         return {
             selectedCity: 0,
+            langs: ["en", "ru"]
         }
     },
     emits: [],
@@ -45,7 +51,7 @@ export default {
         updateSC() {
             this.selectedCity = this.SC;
             this.getWeather()
-        }
+        },
     }
 }
 </script>
