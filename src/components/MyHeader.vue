@@ -19,9 +19,11 @@ export default {
             selectedCity: 0,
         }
     },
+    emits: [],
     props: {
         cities: JSON,
-        currentUnits: String
+        currentUnits: String,
+        SC: Number
     },
     methods: {
         changeUnits() {
@@ -39,6 +41,10 @@ export default {
                 localStorage[String(this.selectedCity)] = 1;
                 console.log("set");
             }
+        },
+        updateSC() {
+            this.selectedCity = this.SC;
+            this.getWeather()
         }
     }
 }

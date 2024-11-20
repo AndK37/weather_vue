@@ -1,12 +1,12 @@
 <template>
   <div class="app">
-    <my-header ref="header" :currentUnits="currentUnits" :cities="cities"></my-header>
+    <my-header ref="header" :currentUnits="currentUnits" :cities="cities" :SC="selectedCity"></my-header>
     <div class="app_top">
       <div class="app__load" v-if="!weatherNow">
         Загрузка...</div>
       <div class="app__main" v-else>
         <weather-main-card class="main-card" :weatherNow="weatherNow" :units="currentUnits" />
-        <feature-list></feature-list>
+        <feature-list @sendSC="getFeature"></feature-list>
       </div>
     </div>
     <div class="app_bot">
@@ -39,7 +39,7 @@ export default {
       cities: [],
       currentUnits: 'C',
       feat: Object.keys(localStorage),
-      
+      selectedCity: 0
     }
   },
   methods: {
@@ -75,7 +75,10 @@ export default {
         }
       }
     },
-    
+    getFeature(cityID) {
+      this.selectedCity = cityID
+      this.$refs.header.updateSC()
+    }
   },
   mounted() {
     if (Object.keys(localStorage) === undefined) {
