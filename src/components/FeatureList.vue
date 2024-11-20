@@ -1,6 +1,6 @@
 <template>
     <div class="list">
-        <button class="list__item" v-for="n in feat" :key="n" :id="n" @click="setFeature">{{ this.$parent.cities[n]["City"] }} </button>
+        <button class="list__item" v-for="n in feat" :key="n" :id="n" @click="setFeature($event)">{{ this.$parent.cities[n]["City"] }} </button>
     </div>
 </template>
 
@@ -12,8 +12,9 @@ export default {
         }
     },
     methods: {
-        setFeature() {
-            
+        setFeature(event) {
+            this.$parent.
+            console.log(event.target.id);
         }
     },
     mounted() {

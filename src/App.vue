@@ -39,6 +39,7 @@ export default {
       cities: [],
       currentUnits: 'C',
       feat: Object.keys(localStorage),
+      
     }
   },
   methods: {
